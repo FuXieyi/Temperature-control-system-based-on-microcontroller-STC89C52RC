@@ -8,6 +8,7 @@
 #include "Buzzer.h"
 
 sbit LED1=P2^0;	//定义LED D1，连接到P2.0引脚
+sbit LED2=P2^1;	//定义LED D2，连接到P2.1引脚
 
 //数码管位选信号定义（用于禁用数码管）
 sbit LSA=P2^2;
@@ -27,6 +28,10 @@ void main()
 	LSB=1;
 	LSC=1;	//设置为111，禁用所有数码管位选
 	P0=0x00;//清零P0口，确保数码管不显示内容
+	
+	//初始化LED状态
+	LED1=1;	//LED D1初始熄灭
+	LED2=1;	//LED D2初始熄灭
 	
 	DS18B20_ConvertT();		//上电先转换一次温度，防止第一次读数据错误
 	Delay(1000);			//等待转换完成
@@ -96,24 +101,34 @@ void main()
 			AT24C02_WriteByte(1,TLow);
 			Delay(5);
 		}
+		
+		/*温度状态判断及LED控制*/
 		if(T>THigh)			//越界判断
 		{
 			LCD_ShowString(1,13,"OV:H");
 			AlarmFlag = 1;		//设置高温报警标志
 			LED1 = 1;			//高温时LED D1熄灭
+			LED2 = 1;			//高温时LED D2熄灭
 		}
 		else if(T<TLow)
 		{
 			LCD_ShowString(1,13,"OV:L");
 			AlarmFlag = 0;		//低温不报警，清除报警标志
 			LED1 = 0;			//低温时LED D1常亮
+			LED2 = 1;			//低温时LED D2熄灭
 		}
 		else
 		{
 			LCD_ShowString(1,13,"    ");
 			AlarmFlag = 0;		//正常温度，清除报警标志
 			LED1 = 1;			//正常温度时LED D1熄灭
+			LED2 = 0;			//正常温度时LED D2常亮
 		}
+		
+		//强制重新设置LSA、LSB、LSC以防LCD操作影响
+		LSA=1;
+		LSB=1;
+		LSC=1;
 	}
 }
 
