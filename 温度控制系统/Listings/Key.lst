@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   KEY                                                                   07/02/2025 15:25:24 PAGE 1   
+C51 COMPILER V9.54   KEY                                                                   07/02/2025 20:11:42 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE KEY
@@ -62,7 +62,7 @@ line level    source
   51   1              if(LastState==2 && NowState==0)
   52   1              {
   53   2                      Key_KeyNumber=2;
-C51 COMPILER V9.54   KEY                                                                   07/02/2025 15:25:24 PAGE 2   
+C51 COMPILER V9.54   KEY                                                                   07/02/2025 20:11:42 PAGE 2   
 
   54   2              }
   55   1              if(LastState==3 && NowState==0)
